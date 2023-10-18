@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+
+
+</head>
+<body>
+    <header>
+        <div>
+            <h3 class="titlee"><a href="">TO DO'S</a></h3>
+        </div>
+    </header>
+    <main>
+        <div class="div1">
+            <label class="label" for="input">To do's</label><br>
+            <input class="input" type="text">
+            <button class="send"> send</button>
+            <button class="reset">Delete all notes</button>
+        </div>
+        <div class="listcontainer">
+            <h1 class="title">Your To Do List</h1>
+
+            <ul  class="todolist">
+
+                <!-- <li class="todos">
+                    <h3>hallo</h3>
+                    <button class="delete sdsfss sdd"><h1>X</h1></button>
+                </li> -->
+                
+            </ul>
+        </div>
+
+
+        
+
+    </main>
+    
+
+
+
+    <script>
+       document.addEventListener("DOMContentLoaded", function() {
+    let todoList = document.querySelector("main .listcontainer .todolist");
+    let todoNr = localStorage.getItem("todosavedNr") || 0;
+    let storedTodos = localStorage.getItem("meineTodos");
+    let allTodos = {};
+    console.log(allTodos);
+
+    if (storedTodos) {
+        allTodos = JSON.parse(storedTodos);
+        Object.keys(allTodos).forEach(function(schlüssel) {
+            
+            addtodoFunction2(allTodos[schlüssel]); 
+            delete allTodos.schlüssel;
+            console.log(schlüssel);
+    
+
+        });
+    } else {
+        allTodos = {};
+    };
+
+    // for( let a in allTodos) {
+    //     addtodoFunction(a);
+    //     console.log(a);
+
+    // }
+    
+    
+    
+    
+
+    document.querySelector(".reset").onclick = function () {
+    localStorage.clear();
+    allTodos = {};
+    todoNr = 0;
+
+    console.log(allTodos);
+    let allClassesDelete = document.getElementsByClassName("delete");
+    // console.log(allClassesDelete);
+
+    // Iterieren durch die HTMLCollection
+    Array.from(allClassesDelete).forEach((element) => {
+        let classList = element.classList;
+        
+        let certainClass = document.getElementsByClassName(classList[1]);
+        // Hier können Sie weitere Aktionen mit der classList durchführen
+        Array.from(certainClass).forEach( al => al.remove());  // Dies entfernt das Element direkt
+        localStorage.setItem("meineTodos", JSON.stringify(allTodos));
+        localStorage.setItem("TodosavedNr", JSON.stringify(todoNr));
+        
+    });
+};
+
+
+
+    console.log(allTodos);
+    
+    
+    
+
+
+
+    document.querySelector(".send").onclick = function() {
+        if (document.querySelector("main .input").value === "") {
+
+        }else { 
+            let inputValue = document.querySelector("main .input").value;
+            addtodoFunction(inputValue);
+            
+        
+        }};
+ 
+
+
+    function addtodoFunction(inputValue) {
+            
+            allTodos["delete"+ todoNr] = (document.querySelector("main .input").value);
+            
+            
+            let deleteClass = "delete" + todoNr;
+            
+            let input = document.querySelector("main .input");
+            let newList = document.createElement("li");
+            let listText = document.createElement("h3");
+            let deleteButton = document.createElement("button");
+            let textInbutton = document.createElement("h1");
+
+            listText.textContent = inputValue;
+            listText.classList.add("todoInthelist", deleteClass);
+            textInbutton.textContent = "X";
+            newList.append(listText);
+            newList.append(deleteButton);
+            newList.classList.add("todos", deleteClass);
+            todoList.append(newList);
+            deleteButton.append(textInbutton);
+            deleteButton.classList.add("delete", deleteClass);
+            input.value = "";
+            localStorage.setItem("meineTodos", JSON.stringify(allTodos));
+            localStorage.setItem("TodosavedNr", JSON.stringify(todoNr));
+            console.log(allTodos);
+    
+
+            // Event-Listener für den neuen "delete"-Button hinzufügen
+            deleteButton.onclick = function deletefunction () {
+                let classsList = deleteButton.classList;
+                console.log(classsList[1]);
+                let removeEl = document.getElementsByClassName(classsList[1]);
+                Array.from(removeEl).forEach(el => el.remove());
+                
+                delete allTodos[classsList[1]];
+                
+
+                localStorage.setItem("meineTodos", JSON.stringify(allTodos));
+                localStorage.setItem("TodosavedNr", JSON.stringify(todoNr));
+            
+                console.log(allTodos);
+            
+            };
+
+            todoNr = todoNr + 1;
+        };
+
+        function addtodoFunction2(inputValue) {
+            
+            allTodos["delete"+ todoNr] = inputValue;
+            
+            
+            let deleteClass = "delete" + todoNr;
+            
+            let input = document.querySelector("main .input");
+            let newList = document.createElement("li");
+            let listText = document.createElement("h3");
+            let deleteButton = document.createElement("button");
+            let textInbutton = document.createElement("h1");
+
+            listText.textContent = inputValue;
+            listText.classList.add("todoInthelist", deleteClass);
+            textInbutton.textContent = "X";
+            newList.append(listText);
+            newList.append(deleteButton);
+            newList.classList.add("todos", deleteClass);
+            todoList.append(newList);
+            deleteButton.append(textInbutton);
+            deleteButton.classList.add("delete", deleteClass);
+            input.value = "";
+            localStorage.setItem("meineTodos", JSON.stringify(allTodos));
+            localStorage.setItem("TodosavedNr", JSON.stringify(todoNr));
+            console.log(allTodos);
+    
+
+            // Event-Listener für den neuen "delete"-Button hinzufügen
+            deleteButton.onclick = function deletefunction () {
+                let classsList = deleteButton.classList;
+                console.log(classsList[1]);
+                let removeEl = document.getElementsByClassName(classsList[1]);
+                Array.from(removeEl).forEach(el => el.remove());
+                
+                delete allTodos[classsList[1]];
+                
+
+                localStorage.setItem("meineTodos", JSON.stringify(allTodos));
+                localStorage.setItem("TodosavedNr", JSON.stringify(todoNr));
+            
+                console.log(allTodos);
+            
+            };
+
+            todoNr = todoNr + 1;
+        };
+
+
+        document.addEventListener("keydown", function(event) {
+  if (event.keyCode === 13) {
+    if (document.querySelector("main .input").value === "") {
+
+    }else { 
+        
+        addtodoFunction(document.querySelector("main .input").value);
+        
+
+    }};
+    
+    
+  
+});
+    });
+
+    
+
+
+        </script>
+</body>
+
+</html>
